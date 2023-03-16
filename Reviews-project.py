@@ -27,15 +27,16 @@ st.sidebar.image("logo.png")
 
 #Para mostrar 
 if st.sidebar.checkbox('Mostrar datos'):
-    st.subheader('Datos')
+    st.subheader('Dataset')
     st.write(data)
 
+#buscador 
 query = st.sidebar.text_input("Buscar por departamento: ")
 query = query.upper()
 if st.sidebar.button('Buscar', key='button1'):
-    # Aquí se filtran los datos dependiendo la busqueda
+    data['department'] = data['department'].dropna()
+    data['department'] = data['department'].astype(str)
     results = data[data["department"].str.upper().str.contains(query)]
-    # Muestra los resultados
     st.header('Resultados:')
     st.table(results)
 
@@ -49,6 +50,22 @@ if st.sidebar.button('Buscar', key='button2'):
     # Muestra los resultados
     st.header('Prendas encontradas:')
     st.table(results)
+
+    ##----El buscador de Reviews creado en clase----
+query = st.sidebar.text_input("Emotions in Reviews: ")
+query = query.upper()
+if st.sidebar.button('Buscar', key='button3'):
+    # Filtra los datos que contienen la consulta ingresada
+    data['reviews'] = data['reviews'].dropna()
+    data['reviews'] = data['reviews'].astype(str)
+    results = data[data["reviews"].str.upper().str.contains(query)]
+    # Muestra los resultados
+    st.header('Comentarios encontrados:')
+    st.table(results)
+
+
+
+
 
  #Multiselect
 st.sidebar.markdown("##")
