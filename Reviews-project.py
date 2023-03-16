@@ -20,7 +20,7 @@ DATA_URL = ('reviews_dresses.csv')
 def load_data(nrows):
     data = pd.read_csv(DATA_URL, nrows=nrows)
     return data
-data = load_data(500)
+data = load_data(1500)
 
 #Sidebar
 st.sidebar.image("logo.png")
@@ -57,7 +57,7 @@ departmentFilter = data[data["department"].isin(department)]
 
 st.sidebar.markdown("##")
 division = st.sidebar.multiselect("Selecciona la división de prenda:", data["division"].unique(), default=data["division"].unique())
-division = data[data["division"].isin(division)]
+divisionFilter = data[data["division"].isin(division)]
 
 st.sidebar.markdown("##")
 rating = st.sidebar.multiselect("Selecciona el rating:", data["rating"].unique(), default=data["rating"].unique())
@@ -80,7 +80,7 @@ if st.sidebar.checkbox('Mostrar histograma', key="buttonHistogram"):
 
 # Barsgraph
 selection = data.query(
-    "division == @division & department == @department ")
+    "department == @department & division == @division & rating == @rating")
 fig = px.bar(selection, x="stock", y=["division", "department"])
 fig.update_xaxes(title='Categorías')
 fig.update_yaxes(title='Valores')
